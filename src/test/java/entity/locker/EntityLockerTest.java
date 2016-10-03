@@ -15,7 +15,7 @@ public class EntityLockerTest {
     public Timeout globalTimeout = Timeout.seconds(1);
 
     @Test
-    public void commandAreExecuted() {
+    public void commandIsExecuted() {
         EntityLocker<String> locker = new EntityLocker<>();
         AtomicBoolean bool = new AtomicBoolean(false);
         locker.execute("test", () -> bool.set(true));
