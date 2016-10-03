@@ -7,6 +7,7 @@ import org.junit.rules.Timeout;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class EntityLockerTest {
@@ -94,5 +95,17 @@ public class EntityLockerTest {
         thread2.join();
         thread1.interrupt();
         thread1.join();
+    }
+
+    @Test
+    public void lockIsDeletedWhenNotUsedAnymore() throws Exception {
+        EntityLocker<String> locker = new EntityLocker<>();
+        Thread thread = new Thread(() ->
+                locker.execute("test", () -> {
+                })
+        );
+        thread.start();
+        thread.join();
+        assertEquals(0, locker.locksCount());
     }
 }
